@@ -1,4 +1,4 @@
-package cap4;
+package Patricia;
 import java.util.Random;
 public class PermutacaoRandomica {
   public static double rand0a1 (Random rand) {

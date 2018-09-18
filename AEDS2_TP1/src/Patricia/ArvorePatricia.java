@@ -1,17 +1,17 @@
-package cap5;
+package Patricia;
 public class ArvorePatricia {
   private static abstract class PatNo { }
   private static class PatNoInt extends PatNo {
     int index; PatNo esq, dir;
   }  
   private static class PatNoExt extends PatNo {
-    char chave; // @{\it O tipo da chave depende da aplica\c{c}\~ao}@
+    char chave; //O tipo da chave depende da aplicao
   }
   
   private PatNo raiz;
   private int nbitsChave;
  
-  // @{\it Retorna o i-\'esimo bit da chave k a partir da esquerda}@
+  //Retorna o i-esimo bit da chave k a partir da esquerda
   private int bit (int i, char k) {
     if (i == 0) return 0;
     int c = (int)k;
@@ -19,7 +19,7 @@ public class ArvorePatricia {
     return c % 2;
   }
 
-  // @{\it Verifica se p \'e n\'o externo}@
+  //Verifica se p e no externo
   private boolean eExterno (PatNo p) {    
     Class classe = p.getClass ();
     return classe.getName().equals(PatNoExt.class.getName());
@@ -52,17 +52,18 @@ public class ArvorePatricia {
 
   private PatNo insereEntre (char k, PatNo t, int i) {
     PatNoInt aux = null; 
-    if (!this.eExterno (t)) aux = (PatNoInt)t;
-    if (this.eExterno (t) || (i < aux.index)) { // @{\it Cria um novo n\'o externo}@
-      PatNo p = this.criaNoExt (k);
-      if (this.bit (i, k) == 1) return this.criaNoInt (i, t, p);
-      else return this.criaNoInt (i, p, t);
+    if (!this.eExterno (t)) 
+        aux = (PatNoInt)t;
+    if (this.eExterno (t) || (i < aux.index)) { //Cria um novo no externo
+        PatNo p = this.criaNoExt (k);
+        if (this.bit (i, k) == 1) return this.criaNoInt (i, t, p);
+        else return this.criaNoInt (i, p, t);
     }
     else {
-      if (this.bit (aux.index, k) == 1) 
-        aux.dir = this.insereEntre (k, aux.dir, i);
-      else aux.esq = this.insereEntre (k, aux.esq, i);
-      return aux;
+        if (this.bit (aux.index, k) == 1) 
+          aux.dir = this.insereEntre (k, aux.dir, i);
+        else aux.esq = this.insereEntre (k, aux.esq, i);
+        return aux;
     }
   }
   

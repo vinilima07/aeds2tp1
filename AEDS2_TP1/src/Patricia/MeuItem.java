@@ -1,4 +1,4 @@
-package cap4;
+package Patricia;
 import java.io.*;
 public class MeuItem implements Item {
   private int chave;

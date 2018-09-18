@@ -9,11 +9,29 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //extrai a palavra do texto e converte em bits
         try{
-            ExtraiPalavra palavras = new ExtraiPalavra (args[0], args[1]);
-            String palavra = null; int i = 1;
-            while ((palavra = palavras.proximaPalavra())!=null)
-            System.out.println ("Palavra"+ (i++) +": " + palavra); 
+            ExtraiPalavra palavras = new ExtraiPalavra 
+                ("C:\\Users\\Positivo\\Documents\\github\\aeds2tp1\\AEDS2_TP1\\src\\Patricia\\delim.txt",
+                 "C:\\Users\\Positivo\\Documents\\github\\aeds2tp1\\AEDS2_TP1\\src\\Patricia\\exemplo1.txt");
+            String p = "vini";
+            String palavra = null;
+            while ((palavra = palavras.proximaPalavra())!=null){
+                byte[] bytes = palavra.getBytes();
+                StringBuilder binary = new StringBuilder();
+                for (byte b : bytes)
+                {
+                   int val = b;
+                   for (int i = 0; i < 8; i++){
+                      binary.append((val & 128) == 0 ? 0 : 1);
+                      val <<= 1;
+                   }
+                }
+                while(binary.length() != 128){
+                    binary.insert(0, '0');
+                }
+                System.out.println("Palavra:"+palavra+" Bits:"+binary);
+            }
             palavras.fecharArquivos();
         }catch (Exception e){
             System.out.println (e.getMessage ());    
@@ -36,9 +54,8 @@ public class Main {
           dicionario.insere (c);
           System.out.println ("Inseriu chave"+ i + ": " + (int)c + " -- char:" + c);
         }
-        dicionario.imprime ();
 
-        //Gera outra permutacai aleatoria das chaves
+        //Gera outra permutacao aleatoria das chaves
         PermutacaoRandomica.permut (vetor, vetor.length);
 
         //Pesquisa cada chave na arvore

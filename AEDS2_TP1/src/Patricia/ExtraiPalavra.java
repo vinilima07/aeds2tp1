@@ -10,7 +10,7 @@ public class ExtraiPalavra {
   throws Exception {
     this.arqDelim = new BufferedReader (new FileReader (nomeArqDelim));
     this.arqTxt = new BufferedReader (new FileReader (nomeArqTxt));
-    // @{\it Os delimitadores devem estar juntos em uma \'unica linha do arquivo}@ 
+    //Os delimitadores devem estar juntos em uma unica linha do arquivo
     this.delimitadores = arqDelim.readLine() + "\r\n"; 
     this.palavras = null;
   }  
