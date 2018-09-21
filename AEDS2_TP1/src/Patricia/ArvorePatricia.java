@@ -5,42 +5,43 @@ public class ArvorePatricia {
     int index; PatNo esq, dir;
   }  
   private static class PatNoExt extends PatNo {
-    char chave; //O tipo da chave depende da aplicao
+    String chave; //O tipo da chave depende da aplicao
   }
   
   private PatNo raiz;
   private int nbitsChave;
  
   //Retorna o i-esimo bit da chave k a partir da esquerda
-  private int bit (int i, char k) {
-    if (i == 0) return 0;
-    int c = (int)k;
-    for (int j = 1; j <= this.nbitsChave - i; j++) c = c/2;
-    return c % 2;
+  private int bit (int i, String k) {
+    if(i == 0) return 0;
+    if(i < 128)
+    if(k.charAt(i) == '0') return 0;
+    else return 1;
+    return 0;
   }
 
   //Verifica se p e no externo
   private boolean eExterno (PatNo p) {    
-    Class classe = p.getClass ();
+    Class classe = p.getClass();
     return classe.getName().equals(PatNoExt.class.getName());
   }
 
   private PatNo criaNoInt (int i, PatNo esq, PatNo dir) {
-    PatNoInt p = new PatNoInt ();
+    PatNoInt p = new PatNoInt();
     p.index = i; p.esq = esq; p.dir = dir;
     return p;
   }
 
-  private PatNo criaNoExt (char k) {
-    PatNoExt p = new PatNoExt ();
+  private PatNo criaNoExt (String k) {
+    PatNoExt p = new PatNoExt();
     p.chave = k;
     return p;
   }
   
-  private void pesquisa (char k, PatNo t) {
+  private void pesquisa (String k, PatNo t) {
     if (this.eExterno (t)) {
       PatNoExt aux = (PatNoExt)t;
-      if (aux.chave == k) System.out.println ("Elemento encontrado");
+      if (aux.chave.equalsIgnoreCase(k)) System.out.println ("Elemento encontrado");
       else System.out.println ("Elemento nao encontrado");
     }
     else { 
@@ -50,7 +51,7 @@ public class ArvorePatricia {
     }
   }
 
-  private PatNo insereEntre (char k, PatNo t, int i) {
+  private PatNo insereEntre (String k, PatNo t, int i) {
     PatNoInt aux = null; 
     if (!this.eExterno (t)) 
         aux = (PatNoInt)t;
@@ -67,7 +68,7 @@ public class ArvorePatricia {
     }
   }
   
-  private PatNo insere (char k, PatNo t) {
+  private PatNo insere (String k, PatNo t) {
     if (t == null) return this.criaNoExt (k);
     else {
       PatNo p = t;
@@ -105,7 +106,7 @@ public class ArvorePatricia {
     }
   }
 
-  public void imprime () {
+  public void imprime() {
     this.central (null, this.raiz, "RAIZ");
   }
 
@@ -113,7 +114,7 @@ public class ArvorePatricia {
     this.raiz = null; this.nbitsChave = nbitsChave; 
   }
   
-  public void pesquisa (char k) { this.pesquisa (k, this.raiz); }
+  public void pesquisa (String k) { this.pesquisa (k, this.raiz); }
   
-  public void insere (char k) { this.raiz = this.insere (k, this.raiz); } 
+  public void insere (String k) { this.raiz = this.insere (k, this.raiz); } 
 }
