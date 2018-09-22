@@ -47,9 +47,5 @@ public class Palavra{
     public List<Posicao> getP() {
         return p;
     }
-
-    public void setP(List<Posicao> p) {
-        this.p = p;
-    }
 }
 

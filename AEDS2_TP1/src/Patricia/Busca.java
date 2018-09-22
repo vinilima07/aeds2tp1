@@ -8,8 +8,7 @@ package Patricia;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
-import java.util.List;
-
+import java.util.HashMap;
 /**
  *
  * @author Positivo
@@ -18,7 +17,7 @@ class Busca {
     public void discover(String fileName) throws IOException{
         ArvorePatricia dicionario = new ArvorePatricia(128);
         StringBuilder string = new StringBuilder();
-        List<Palavra> indexadas = new ArrayList<>();
+        HashMap<String, Palavra> indexadas = new HashMap();
         RandomAccessFile file = null;
         //extrai a palavra do texto e converte em bits
         try {
@@ -33,20 +32,28 @@ class Busca {
                    c = (char) EOF; // conversao int para char
                 }else break;
                 if(c == ' ' || c == '\t' || c == '\n' ||  c == '\r'
-                        || c == ',' || c == '.' ||  c == '!' || c == '?'){
-                    coluna++;
+                    || c == ',' || c == '.' ||  c == '!' || c == '?'){
+                    
+                    if(string.length() > 0){
+                        dicionario.insere(new Palavra(getBit(string.toString()), string.toString(), coluna, linha));
+                        string = new StringBuilder();
+                    }
                     if(c == '\n'){
                         linha++;
                         coluna = 0;
                     }
-                    indexadas.add(new Palavra(getBits(string.toString()), string.toString(), coluna, linha));
-                    dicionario.insere(getBits(string.toString()));
-                    string = new StringBuilder();
                 }else{
                     string.append(c);
                 }
+                coluna++;
             }
-            dicionario.pesquisa(indexadas.get(0).getBits());
+            System.out.println("fim while");
+            Palavra p = (new Palavra(getBit("Importancia"), "Importancia", 0, 0));
+            if((p = dicionario.pesquisa(p)) != null){
+                System.out.println(p.getPalavra());
+                for(Posicao o: p.getP())
+                    System.out.print("<"+o.getLinha()+","+o.getLinha()+">");
+            }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }finally{
@@ -54,7 +61,7 @@ class Busca {
         }
     }
     
-    public static String getBits(String palavra){
+    public static String getBit(String palavra){
         byte[] bytes = palavra.getBytes();
         //recupera a palavra em bytes
         StringBuilder binary = new StringBuilder();

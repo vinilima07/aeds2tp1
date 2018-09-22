@@ -5,7 +5,7 @@ public class ArvorePatricia {
     int index; PatNo esq, dir;
   }  
   private static class PatNoExt extends PatNo {
-    String chave; //O tipo da chave depende da aplicao
+    Palavra chave; //O tipo da chave depende da aplicao
   }
   
   private PatNo raiz;
@@ -13,8 +13,7 @@ public class ArvorePatricia {
  
   //Retorna o i-esimo bit da chave k a partir da esquerda
   private int bit (int i, String k) {
-    if(i == 0) return 0;
-    if(i < 128)
+    if(i < this.nbitsChave)
     if(k.charAt(i) == '0') return 0;
     else return 1;
     return 0;
@@ -32,57 +31,64 @@ public class ArvorePatricia {
     return p;
   }
 
-  private PatNo criaNoExt (String k) {
+  private PatNo criaNoExt (Palavra k) {
     PatNoExt p = new PatNoExt();
     p.chave = k;
     return p;
   }
   
-  private void pesquisa (String k, PatNo t) {
+  private Palavra pesquisa (Palavra k, PatNo t) {
     if (this.eExterno (t)) {
       PatNoExt aux = (PatNoExt)t;
-      if (aux.chave.equalsIgnoreCase(k)) System.out.println ("Elemento encontrado");
-      else System.out.println ("Elemento nao encontrado");
+      if (aux.chave.getPalavra().equalsIgnoreCase(k.getPalavra())){
+          System.out.println ("Elemento encontrado");
+          return k;
+      }else{
+          System.out.println ("Elemento nao encontrado");
+          return null;
+      }
     }
     else { 
       PatNoInt aux = (PatNoInt)t;
-      if (this.bit (aux.index, k) == 0) pesquisa (k, aux.esq);
+      if (this.bit (aux.index, k.getBits()) == 0) pesquisa (k, aux.esq);
       else pesquisa (k, aux.dir);
     }
+    return null;
   }
 
-  private PatNo insereEntre (String k, PatNo t, int i) {
+  private PatNo insereEntre (Palavra k, PatNo t, int i) {
     PatNoInt aux = null; 
     if (!this.eExterno (t)) 
         aux = (PatNoInt)t;
     if (this.eExterno (t) || (i < aux.index)) { //Cria um novo no externo
         PatNo p = this.criaNoExt (k);
-        if (this.bit (i, k) == 1) return this.criaNoInt (i, t, p);
+        if (this.bit (i, k.getBits()) == 1) return this.criaNoInt (i, t, p);
         else return this.criaNoInt (i, p, t);
     }
     else {
-        if (this.bit (aux.index, k) == 1) 
+        if (this.bit (aux.index, k.getBits()) == 1) 
           aux.dir = this.insereEntre (k, aux.dir, i);
         else aux.esq = this.insereEntre (k, aux.esq, i);
         return aux;
     }
   }
   
-  private PatNo insere (String k, PatNo t) {
+  private PatNo insere (Palavra k, PatNo t) {
     if (t == null) return this.criaNoExt (k);
     else {
       PatNo p = t;
       while (!this.eExterno (p)) {
         PatNoInt aux = (PatNoInt)p;
-        if (this.bit (aux.index, k) == 1) p = aux.dir; else p = aux.esq;
+        if (this.bit (aux.index, k.getBits()) == 1) p = aux.dir; else p = aux.esq;
       }
       PatNoExt aux = (PatNoExt)p;
-      int i = 1; // @{\it acha o primeiro bit diferente}@
+      int i = 0; //acha o primeiro bit diferente
       while ((i <= this.nbitsChave)&&
-             (this.bit (i, k) == this.bit (i, aux.chave))) i++;
+             (this.bit (i, k.getBits()) == this.bit (i, aux.chave.getBits()))) i++;
       if (i > this.nbitsChave) {
-        System.out.println ("Erro: chave ja esta na arvore"); 
-        return t;
+        aux.chave.inserePosicao(k.getP().get(0).getColuna(), k.getP().get(0).getLinha());
+        System.out.println ("chave ja esta na arvore");
+        return null;
       }
       else return this.insereEntre (k, t, i);
     }
@@ -114,7 +120,7 @@ public class ArvorePatricia {
     this.raiz = null; this.nbitsChave = nbitsChave; 
   }
   
-  public void pesquisa (String k) { this.pesquisa (k, this.raiz); }
+  public Palavra pesquisa (Palavra k) { return (this.pesquisa (k, this.raiz)); }
   
-  public void insere (String k) { this.raiz = this.insere (k, this.raiz); } 
+  public void insere (Palavra k) { this.raiz = this.insere (k, this.raiz); }
 }
