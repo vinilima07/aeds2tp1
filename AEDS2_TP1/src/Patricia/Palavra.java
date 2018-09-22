@@ -18,19 +18,38 @@ public class Palavra{
     private String palavra;
     private List<Posicao> p = new ArrayList<>();
     
-    public Palavra(String bits, Palavra p){
+    public Palavra(String bits, String palavra, int coluna, int linha){
         this.bits = bits;
-        this.palavra = p.palavra;
-        this.p = p.p;
-    }
-    
-    public Palavra(String palavra, int coluna, int linha){
         this.palavra = palavra;
         p.add(new Posicao(coluna, linha));
     }
     
     public void inserePosicao(int coluna, int linha){
         p.add(new Posicao(coluna, linha));
+    }
+
+    public String getBits() {
+        return bits;
+    }
+
+    public void setBits(String bits) {
+        this.bits = bits;
+    }
+
+    public String getPalavra() {
+        return palavra;
+    }
+
+    public void setPalavra(String palavra) {
+        this.palavra = palavra;
+    }
+
+    public List<Posicao> getP() {
+        return p;
+    }
+
+    public void setP(List<Posicao> p) {
+        this.p = p;
     }
 }
 
