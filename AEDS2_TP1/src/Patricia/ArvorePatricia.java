@@ -39,12 +39,12 @@ public class ArvorePatricia {
     if (this.eExterno (t)) {
       PatNoExt aux = (PatNoExt)t;
       if (aux.chave.getBits().equalsIgnoreCase(k.getBits())){
-        System.out.println ("Elemento encontrado");
-        System.out.println(k.getPalavra());
+        System.out.println ("\nElemento encontrado");
+        System.out.print("::"+k.getPalavra()+"::");
         for(Posicao o: aux.chave.getP())
             System.out.print("<"+o.getColuna()+","+o.getLinha()+">");
       }else{
-          System.out.println ("Elemento nao encontrado");
+          System.out.println("\nElemento nao encontrado");
       }
     }
     else { 

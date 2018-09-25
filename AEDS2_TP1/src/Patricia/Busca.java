@@ -12,7 +12,7 @@ import java.io.RandomAccessFile;
  * @author Positivo
  */
 class Busca {
-    public void discover(String fileName) throws IOException{
+    public void discover(String fileName, String[] palavras) throws IOException{
         ArvorePatricia dicionario = new ArvorePatricia(128);
         StringBuilder string = new StringBuilder();
         RandomAccessFile file = null;
@@ -29,7 +29,7 @@ class Busca {
                    c = (char) EOF; // conversao int para char
                 }else break;
                 if(c == ' ' || c == '\t' || c == '\n' ||  c == '\r'
-                    || c == ',' || c == '.' ||  c == '!' || c == '?'){
+                    || c == ',' || c == '.' ||  c == '!' || c == '?' || c == '*'){
                     
                     if(string.length() > 0){
                         dicionario.insere(new Palavra(getBit(string.toString()), string.toString(), coluna, linha));
@@ -45,9 +45,9 @@ class Busca {
                 coluna++;
             }
             System.out.println("fim while");
-            //india, ou ver, mais uma vez, uma grande oportunidade passar sem ser aproveitada.
-            Palavra p = (new Palavra(getBit("Importancia"), "Importancia", 0, 0));
-            dicionario.pesquisa(p);
+            for(String w: palavras){
+                dicionario.pesquisa(new Palavra(getBit(w), w, 0, 0));
+            }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }finally{
