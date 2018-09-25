@@ -13,10 +13,8 @@ public class ArvorePatricia {
  
   //Retorna o i-esimo bit da chave k a partir da esquerda
   private int bit (int i, String k) {
-    if(i < this.nbitsChave)
     if(k.charAt(i) == '0') return 0;
     else return 1;
-    return 0;
   }
 
   //Verifica se p e no externo
@@ -37,15 +35,16 @@ public class ArvorePatricia {
     return p;
   }
   
-  private Palavra pesquisa (Palavra k, PatNo t) {
+  private void pesquisa (Palavra k, PatNo t) {
     if (this.eExterno (t)) {
       PatNoExt aux = (PatNoExt)t;
-      if (aux.chave.getPalavra().equalsIgnoreCase(k.getPalavra())){
-          System.out.println ("Elemento encontrado");
-          return k;
+      if (aux.chave.getBits().equalsIgnoreCase(k.getBits())){
+        System.out.println ("Elemento encontrado");
+        System.out.println(k.getPalavra());
+        for(Posicao o: aux.chave.getP())
+            System.out.print("<"+o.getColuna()+","+o.getLinha()+">");
       }else{
           System.out.println ("Elemento nao encontrado");
-          return null;
       }
     }
     else { 
@@ -53,7 +52,6 @@ public class ArvorePatricia {
       if (this.bit (aux.index, k.getBits()) == 0) pesquisa (k, aux.esq);
       else pesquisa (k, aux.dir);
     }
-    return null;
   }
 
   private PatNo insereEntre (Palavra k, PatNo t, int i) {
@@ -83,12 +81,12 @@ public class ArvorePatricia {
       }
       PatNoExt aux = (PatNoExt)p;
       int i = 0; //acha o primeiro bit diferente
-      while ((i <= this.nbitsChave)&&
+      while ((i < this.nbitsChave)&&
              (this.bit (i, k.getBits()) == this.bit (i, aux.chave.getBits()))) i++;
-      if (i > this.nbitsChave) {
+      if (i >= this.nbitsChave) {
         aux.chave.inserePosicao(k.getP().get(0).getColuna(), k.getP().get(0).getLinha());
         System.out.println ("chave ja esta na arvore");
-        return null;
+        return t;
       }
       else return this.insereEntre (k, t, i);
     }
@@ -120,7 +118,7 @@ public class ArvorePatricia {
     this.raiz = null; this.nbitsChave = nbitsChave; 
   }
   
-  public Palavra pesquisa (Palavra k) { return (this.pesquisa (k, this.raiz)); }
+  public void pesquisa (Palavra k) { this.pesquisa (k, this.raiz); }
   
   public void insere (Palavra k) { this.raiz = this.insere (k, this.raiz); }
 }

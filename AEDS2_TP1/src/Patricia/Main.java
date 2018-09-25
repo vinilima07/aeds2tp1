@@ -14,7 +14,7 @@ public class Main {
         String[] palavras2= {"sociedade", "software", "ideia", "pessoa", "informatica", "etica", "muito", "ciencia", "computacao", "que", "area", "Moral"};
         
         String file1 = "C:\\Users\\Positivo\\Documents\\github\\treePatricia\\AEDS2_TP1\\src\\Patricia\\exemplo1.txt";
-        String file2 = "C:\\Users\\Positivo\\Documents\\github\\treePatricia\\AEDS2_TP1\\src\\Patricia\\exemplo2.txt";
+        //String file2 = "C:\\Users\\Positivo\\Documents\\github\\treePatricia\\AEDS2_TP1\\src\\Patricia\\exemplo2.txt";
         Busca b = new Busca();
         b.discover(file1);
         //b.discover(file2);

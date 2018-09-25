@@ -7,8 +7,6 @@ package Patricia;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.ArrayList;
-import java.util.HashMap;
 /**
  *
  * @author Positivo
@@ -17,7 +15,6 @@ class Busca {
     public void discover(String fileName) throws IOException{
         ArvorePatricia dicionario = new ArvorePatricia(128);
         StringBuilder string = new StringBuilder();
-        HashMap<String, Palavra> indexadas = new HashMap();
         RandomAccessFile file = null;
         //extrai a palavra do texto e converte em bits
         try {
@@ -48,12 +45,9 @@ class Busca {
                 coluna++;
             }
             System.out.println("fim while");
+            //india, ou ver, mais uma vez, uma grande oportunidade passar sem ser aproveitada.
             Palavra p = (new Palavra(getBit("Importancia"), "Importancia", 0, 0));
-            if((p = dicionario.pesquisa(p)) != null){
-                System.out.println(p.getPalavra());
-                for(Posicao o: p.getP())
-                    System.out.print("<"+o.getLinha()+","+o.getLinha()+">");
-            }
+            dicionario.pesquisa(p);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }finally{
