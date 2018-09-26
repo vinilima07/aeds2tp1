@@ -28,8 +28,9 @@ class Busca {
                 if(EOF != -1) {
                    c = (char) EOF; // conversao int para char
                 }else break;
-                if(c == ' ' || c == '\t' || c == '\n' ||  c == '\r'
-                    || c == ',' || c == '.' ||  c == '!' || c == '?' || c == '*'){
+                if(c == ' ' || c == '\t' || c == '\n' ||  c == '\r' || c == '*'
+                    || c == '&' || c == ';' || c == ')' || c == '(' || c == ':'
+                    || c == ',' || c == '.' ||  c == '!' || c == '?'){
                     
                     if(string.length() > 0){
                         dicionario.insere(new Palavra(getBit(string.toString()), string.toString(), coluna, linha));
@@ -43,6 +44,9 @@ class Busca {
                     string.append(c);
                 }
                 coluna++;
+                if(linha == 74 && coluna >70){
+                    System.out.println("dsa");
+                }
             }
             System.out.println("fim while");
             for(String w: palavras){
