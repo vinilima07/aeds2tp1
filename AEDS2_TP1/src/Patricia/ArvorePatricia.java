@@ -85,10 +85,10 @@ public class ArvorePatricia {
              (this.bit (i, k.getBits()) == this.bit (i, aux.chave.getBits()))) i++;
       if (i >= this.nbitsChave) {
         aux.chave.inserePosicao(k.getP().get(0).getColuna(), k.getP().get(0).getLinha());
-        System.out.println ("chave "+k.getPalavra()+" ja esta na arvore");
+        //System.out.println ("chave "+k.getPalavra()+" ja esta na arvore");
         return t;
       }
-      else return this.insereEntre (k, t, i);
+      else return this.insereEntre(k, t, i);
     }
   }
   

@@ -30,10 +30,14 @@ class Busca {
                 }else break;
                 if(c == ' ' || c == '\t' || c == '\n' ||  c == '\r' || c == '*'
                     || c == '&' || c == ';' || c == ')' || c == '(' || c == ':'
-                    || c == ',' || c == '.' ||  c == '!' || c == '?'){
+                    || c == ',' || c == '.' ||  c == '!' || c == '?' || c == '\"'
+                    || c == '[' || c == ']'){
                     
                     if(string.length() > 0){
-                        dicionario.insere(new Palavra(getBit(string.toString()), string.toString(), coluna, linha));
+                        if(string.length() < 16)
+                            dicionario.insere(new Palavra(getBit(string.toString()), string.toString(), coluna, linha));
+                        if(string.length() > 16)
+                            System.out.println(string.toString());
                         string = new StringBuilder();
                     }
                     if(c == '\n'){
@@ -41,12 +45,10 @@ class Busca {
                         coluna = 0;
                     }
                 }else{
-                    string.append(c);
+                    if(Character.isLetter(c))
+                        string.append(c);
                 }
                 coluna++;
-                if(linha == 74 && coluna >70){
-                    System.out.println("dsa");
-                }
             }
             System.out.println("fim while");
             for(String w: palavras){
