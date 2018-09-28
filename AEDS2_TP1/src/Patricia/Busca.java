@@ -7,6 +7,7 @@ package Patricia;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Scanner;
 /**
  *
  * @author Positivo
@@ -16,6 +17,7 @@ class Busca {
         ArvorePatricia dicionario = new ArvorePatricia(128);
         StringBuilder string = new StringBuilder();
         RandomAccessFile file = null;
+
         //extrai a palavra do texto e converte em bits
         try {
             file = new RandomAccessFile(fileName, "r");
@@ -33,11 +35,12 @@ class Busca {
                     || c == ',' || c == '.' ||  c == '!' || c == '?' || c == '\"'
                     || c == '[' || c == ']'){
                     
-                    if(string.length() > 0){
+                    if(string.length() > 0){ //verifica se a string nao é vazia ou é menor que 16
                         if(string.length() < 16)
                             dicionario.insere(new Palavra(getBit(string.toString()), string.toString(), coluna, linha));
-                        if(string.length() > 16)
-                            System.out.println(string.toString());
+                        //palavra superior ao limite
+//                        if(string.length() > 16)
+//                            System.out.println(string.toString());
                         string = new StringBuilder();
                     }
                     if(c == '\n'){
@@ -50,7 +53,6 @@ class Busca {
                 }
                 coluna++;
             }
-            System.out.println("fim while");
             for(String w: palavras){
                 dicionario.pesquisa(new Palavra(getBit(w), w, 0, 0));
             }
